@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "consulta")
@@ -35,6 +36,7 @@ public class Consulta {
 	@JoinColumn(name = "ide_especialidad", nullable = false, foreignKey = @ForeignKey(name = "FK_consulta_especialidad"))
 	private Especialidad especialidad;
 
+	@NotEmpty
 	@Column(name = "num_consultorio", length = 3, nullable = false)
 	private String numConsultorio;
 
