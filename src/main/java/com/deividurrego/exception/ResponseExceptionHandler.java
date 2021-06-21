@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -39,6 +40,13 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		ExceptionResponse er = new ExceptionResponse(LocalDateTime.now(), mensaje, request.getDescription(false));
 		return new ResponseEntity<Object>(er, HttpStatus.BAD_REQUEST);
+	}
+
+	@Override
+	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		ExceptionResponse er = new ExceptionResponse(LocalDateTime.now(), "Método no soportado", request.getDescription(false));
+		return new ResponseEntity<Object>(er, HttpStatus.NOT_FOUND);
 	}
 	
 }
