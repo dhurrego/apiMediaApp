@@ -1,11 +1,16 @@
 package com.deividurrego.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
@@ -23,9 +28,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.deividurrego.exception.ModeloNotFoundException;
 import com.deividurrego.model.Paciente;
 import com.deividurrego.service.IPacienteService;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/pacientes")
@@ -79,6 +81,12 @@ public class PacienteController {
 		}
 		service.eliminar(id);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+	}
+	
+	@GetMapping("/pageable")
+	public ResponseEntity<Page<Paciente>> listarPageable(Pageable pageable) throws Exception {
+		Page<Paciente> pacientes = service.listarPageable(pageable);
+		return new ResponseEntity<Page<Paciente>>(pacientes, HttpStatus.OK);
 	}
 
 }
