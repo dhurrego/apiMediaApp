@@ -17,7 +17,6 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -39,8 +37,6 @@ import com.deividurrego.model.Archivo;
 import com.deividurrego.model.Consulta;
 import com.deividurrego.service.IArchivoService;
 import com.deividurrego.service.IConsultaService;
-
-import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/consultas")
@@ -142,9 +138,4 @@ public class ConsultaController {
 		
 		return new ResponseEntity<Integer>(rpta, HttpStatus.OK);
 	}
-	
-	@PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<String> saveImage(@RequestPart("file") Mono<FilePart> part) throws Exception{
-         return part.flatMap(file -> Mono.just(file.filename()));
-    }
 }
